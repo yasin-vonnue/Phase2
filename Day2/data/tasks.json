@@ -1,0 +1,14 @@
+[
+  {
+    "id": "47a46f61-2ec3-43fd-bd45-b94aa703e373",
+    "title": "Learn TypeScript",
+    "completed": false,
+    "createdAt": "2026-09-10T09:12:33.137Z"
+  },
+  {
+    "id": "eaf66776-57dd-424c-881e-f641871111a8",
+    "title": "Test compiled CLI",
+    "completed": true,
+    "createdAt": "2026-09-10T09:14:34.232Z"
+  }
+]
