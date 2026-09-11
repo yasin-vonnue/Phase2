@@ -1,0 +1,56 @@
+[
+  {
+    "id": "47a46f61-2ec3-43fd-bd45-b94aa703e373",
+    "title": "Learn TypeScript",
+    "completed": false,
+    "createdAt": "2026-09-10T09:12:33.137Z"
+  },
+  {
+    "id": "eaf66776-57dd-424c-881e-f641871111a8",
+    "title": "Test compiled CLI",
+    "completed": true,
+    "createdAt": "2026-09-10T09:14:34.232Z"
+  },
+  {
+    "id": "daffeb45-45eb-46a3-a2b5-ed71b84445a5",
+    "title": "Test API task",
+    "completed": false,
+    "createdAt": "2026-09-11T10:08:00.705Z"
+  },
+  {
+    "id": "0a5c4e2a-fc9c-49e3-9a63-a169f874e8c2",
+    "title": "Test API task",
+    "completed": false,
+    "createdAt": "2026-09-11T10:10:39.800Z"
+  },
+  {
+    "id": "15f967de-c3af-49fc-820c-ed2e1be71dac",
+    "title": "Test API task",
+    "completed": false,
+    "createdAt": "2026-09-11T10:14:23.889Z"
+  },
+  {
+    "id": "1405eef5-370e-41ef-8bd4-2cec9f31b91c",
+    "title": "Test API task",
+    "completed": false,
+    "createdAt": "2026-09-11T10:16:07.066Z"
+  },
+  {
+    "id": "f9c9bde0-d0b8-44f3-9779-e245cb24b400",
+    "title": "Task to complete",
+    "completed": true,
+    "createdAt": "2026-09-11T10:16:07.082Z"
+  },
+  {
+    "id": "4c977453-7bca-4713-a781-c4dfe1f9c444",
+    "title": "Test API task",
+    "completed": false,
+    "createdAt": "2026-09-11T10:16:36.071Z"
+  },
+  {
+    "id": "da386965-486a-4546-8afd-b78cc050a5cc",
+    "title": "Task to complete",
+    "completed": true,
+    "createdAt": "2026-09-11T10:16:36.085Z"
+  }
+]
