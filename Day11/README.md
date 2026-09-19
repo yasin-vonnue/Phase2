@@ -1,109 +1,111 @@
-# Day 5 - Support Ticket API
+# Day 11: Node.js with PostgreSQL
 
-A file-backed Support Ticket API built with Node.js, TypeScript, Express, and Vitest.
+## Overview
+
+A Support Ticket API built with Node.js, TypeScript, Express, and PostgreSQL. This project replaces file-based storage with a PostgreSQL database using parameterized queries and a repository-based architecture.
 
 ## Features
 
-- Create, list, view, update, assign, and delete tickets
-- Validate ticket data
-- JSON file persistence
-- Unit and API tests
+- PostgreSQL database integration using `pg`
+- Environment-based database configuration with `dotenv`
+- CRUD operations for support tickets
+- Parameterized SQL queries to prevent SQL injection
+- Repository and service layer separation
+- Database health-check endpoint
+- Centralized error handling
+- Automated tests using Vitest
 
-## Ticket
+## Tech Stack
 
-```json
-{
-  "id": "uuid",
-  "title": "Login issue",
-  "description": "User cannot log in",
-  "priority": "high",
-  "status": "open",
-  "assignee": null,
-  "createdAt": "2026-09-15T10:00:00.000Z",
-  "updatedAt": "2026-09-15T10:00:00.000Z"
-}
-```
+- Node.js
+- TypeScript
+- Express
+- PostgreSQL
+- node-postgres (`pg`)
+- dotenv
+- Vitest
+- Supertest
 
-Priority: `low` | `medium` | `high`
+## Setup
 
-Status: `open` | `in-progress` | `resolved`
-
-## API
-
-| Method | Endpoint                | Description   |
-| ------ | ----------------------- | ------------- |
-| POST   | `/tickets`              | Create ticket |
-| GET    | `/tickets`              | List tickets  |
-| GET    | `/tickets/:id`          | View ticket   |
-| PATCH  | `/tickets/:id/status`   | Update status |
-| PATCH  | `/tickets/:id/assignee` | Assign ticket |
-| DELETE | `/tickets/:id`          | Delete ticket |
-| GET    | `/health`               | Health check  |
-
-## Example
-
-Create a ticket:
-
-```bash
-curl -X POST http://localhost:3000/tickets \
-  -H "Content-Type: application/json" \
-  -d '{"title":"Login issue","description":"User cannot log in","priority":"high"}'
-```
-
-Update status:
-
-```bash
-curl -X PATCH http://localhost:3000/tickets/TICKET_ID/status \
-  -H "Content-Type: application/json" \
-  -d '{"status":"resolved"}'
-```
-
-Assign:
-
-```bash
-curl -X PATCH http://localhost:3000/tickets/TICKET_ID/assignee \
-  -H "Content-Type: application/json" \
-  -d '{"assignee":"Yasin"}'
-```
-
-## Project Structure
-
-```text
-src/
-├── controllers/
-├── repository/
-├── routes/
-├── services/
-├── types/
-├── app.ts
-└── server.ts
-
-tests/
-├── api.test.ts
-├── ticketRepository.test.ts
-└── ticketService.test.ts
-
-data/
-└── tickets.json
-```
-
-## Commands
+### 1. Install dependencies
 
 ```bash
 npm install
-npm run dev
-npm run build
-npm start
-npm test
-npm run test:watch
 ```
 
-## Validation
+### 2. Configure environment variables
 
-- Title and description are required.
-- Priority must be `low`, `medium`, or `high`.
-- Status must be `open`, `in-progress`, or `resolved`.
-- Assignee must be a string or `null`.
-- Invalid input returns `400`.
-- Missing tickets return `404`.
-- Successful deletion returns `204`.
+Create a `.env` file in the project root:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=support_ticket_db
+DB_USER=postgres
+DB_PASSWORD=your_password
+```
+
+Replace `your_password` with your PostgreSQL password.
+
+### 3. Prepare the database
+
+Create the database and the required `api_tickets` table using the SQL schema provided for this project.
+
+Ensure PostgreSQL is running before starting the API.
+
+## Run the Application
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build the TypeScript project:
+
+```bash
+npm run build
+```
+
+Run the compiled application:
+
+```bash
+npm start
+```
+
+## Testing
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Run TypeScript type checking:
+
+```bash
+npx tsc --noEmit
+```
+
+## API Endpoints
+
+| Method | Endpoint       | Description                         |
+| ------ | -------------- | ----------------------------------- |
+| GET    | `/health`      | Check API and database connectivity |
+| GET    | `/tickets`     | Retrieve all tickets                |
+| GET    | `/tickets/:id` | Retrieve a ticket by ID             |
+| POST   | `/tickets`     | Create a ticket                     |
+| PATCH  | `/tickets/:id` | Update ticket details               |
+| DELETE | `/tickets/:id` | Delete a ticket                     |
+
+## Security and Error Handling
+
+- Database credentials are loaded from environment variables.
+- SQL queries use parameterized values.
+- Database connection failures return an appropriate error response.
+- Centralized error handling manages API errors.
+
+## Project Goal
+
+To integrate PostgreSQL into a Node.js API, implement safe database operations, and maintain a clean separation between routes, controllers, services, and repositories.
