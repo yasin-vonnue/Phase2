@@ -1,0 +1,12 @@
+[
+  {
+    "id": "c618df65-2f2d-4f46-a7ee-d5c55b1c327f",
+    "title": "Login issue",
+    "description": "User cannot log in",
+    "priority": "high",
+    "status": "open",
+    "assignee": null,
+    "createdAt": "2026-09-15T09:36:50.936Z",
+    "updatedAt": "2026-09-15T09:36:50.936Z"
+  }
+]
