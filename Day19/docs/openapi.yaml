@@ -1,0 +1,272 @@
+openapi: 3.1.0
+info:
+  title: Support Ticket API
+  version: 1.0.0
+  description: REST API for authentication and support ticket management.
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Health
+  - name: Authentication
+  - name: Tickets
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Check API and database health
+      responses:
+        "200":
+          description: Database connected
+        "500":
+          description: Database unavailable
+
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User registered
+        "400":
+          description: Invalid input
+        "409":
+          description: Email already registered
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Log in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+        "400":
+          description: Invalid input
+        "401":
+          description: Invalid credentials
+        "429":
+          description: Too many login attempts
+
+  /auth/me:
+    get:
+      tags: [Authentication]
+      summary: Get current user
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Current user
+        "401":
+          description: Authentication required
+
+  /tickets:
+    get:
+      tags: [Tickets]
+      summary: List tickets
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Paginated tickets
+        "400":
+          description: Invalid query parameters
+        "401":
+          description: Authentication required
+        "403":
+          description: Forbidden
+
+    post:
+      tags: [Tickets]
+      summary: Create a ticket
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTicketRequest"
+      responses:
+        "201":
+          description: Ticket created
+        "400":
+          description: Invalid input
+        "401":
+          description: Authentication required
+        "403":
+          description: Forbidden
+
+  /tickets/{id}:
+    get:
+      tags: [Tickets]
+      summary: Get a ticket
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Ticket returned
+        "401":
+          description: Authentication required
+        "403":
+          description: Forbidden
+        "404":
+          description: Ticket not found
+
+    delete:
+      tags: [Tickets]
+      summary: Delete a ticket
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "204":
+          description: Ticket deleted
+        "401":
+          description: Authentication required
+        "403":
+          description: Forbidden
+        "404":
+          description: Ticket not found
+
+  /tickets/{id}/status:
+    patch:
+      tags: [Tickets]
+      summary: Update ticket status
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StatusRequest"
+      responses:
+        "200":
+          description: Ticket updated
+        "400":
+          description: Invalid status
+        "401":
+          description: Authentication required
+        "403":
+          description: Forbidden
+        "404":
+          description: Ticket not found
+
+  /tickets/{id}/assignee:
+    patch:
+      tags: [Tickets]
+      summary: Assign a ticket
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssigneeRequest"
+      responses:
+        "200":
+          description: Ticket updated
+        "400":
+          description: Invalid assignee
+        "401":
+          description: Authentication required
+        "403":
+          description: Forbidden
+        "404":
+          description: Ticket not found
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    TicketId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          minLength: 8
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    CreateTicketRequest:
+      type: object
+      required:
+        - title
+        - description
+        - priority
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high]
+
+    StatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [open, in-progress, resolved]
+
+    AssigneeRequest:
+      type: object
+      required:
+        - assignee
+      properties:
+        assignee:
+          type:
+            - string
+            - "null"
